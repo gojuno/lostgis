@@ -1,0 +1,55 @@
+{
+   "name": "lostgis",
+   "abstract": "LostGIS",
+   "description": "LostGIS",
+   "version": "1.0.0",
+   "maintainer": [
+      "Darafei Praliaskouski <komzpa@gmail.com>",
+      "Alexander Verbitsky <habibutsu@gmail.com>"
+   ],
+   "license": "bsd",
+   "release_status": "stable",
+   "prereqs": {
+      "runtime": {
+         "requires": {
+            "PostgreSQL": "9.6.0",
+            "PostGIS": "2.3.0"
+         }
+      },
+      "test": {
+         "requires": {
+            "pgTAP": "0.95.0"
+         }
+      }
+   },
+   "provides": {
+      "lostgis": {
+         "abstract": "LostGIS",
+         "docfile": "doc/lostgis.md",
+         "file": "sql/lostgis.sql",
+         "version": "1.0.0"
+      }
+   },
+   "resources": {
+      "bugtracker": {
+         "web": "https://github.com/gojuno/lostgis/issues"
+      },
+      "repository": {
+        "url":  "git://github.com/gojuno/lostgis.git",
+        "web":  "https://github.com/gojuno/lostgis",
+        "type": "git"
+      }
+   },
+   "generated_by": "Alexander Verbitsky",
+   "meta-spec": {
+      "version": "1.0.0",
+      "url": "http://pgxn.org/meta/spec.txt"
+   },
+   "tags": [
+      "gis",
+      "tpv",
+      "spatial",
+      "temporal",
+      "spatiotemporal"
+   ]
+}

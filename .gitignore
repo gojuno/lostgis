@@ -1,0 +1,4 @@
+*.zip
+regression.*
+results/
+_build
