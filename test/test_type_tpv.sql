@@ -1,7 +1,7 @@
 begin;
 create extension lostgis;
 
-select plan(2);
+select plan(3);
 
 select is(
     '{"lon": -73.9, "lat": 40.7}' :: jsonb :: tpv,
@@ -31,5 +31,18 @@ select is(
             null, null, null, null, null, null
         )::tpv
     ]);
+    
+select is(
+    '[
+        {"lon": -73.9, "lat": 40.7},
+        {"lon": -73.9, "lat": 40.6},
+        {"lon": -73.9, "lat": 40.5}
+    ]' :: jsonb :: tpv [] :: jsonb,
+    '[
+        {"lon": -73.9, "lat": 40.7},
+        {"lon": -73.9, "lat": 40.6},
+        {"lon": -73.9, "lat": 40.5}
+    ]' :: jsonb
+    );
 
 rollback;
