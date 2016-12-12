@@ -4,8 +4,8 @@ EXTENSION		= lostgis
 EXTVERSION		= $(shell \
 					grep default_version $(EXTENSION).control | \
 					sed -e "s/default_version[[:space:]]*=[[:space:]]*'\([^']*\)'/\1/")
-DATA 			= _build/$(EXTENSION)--$(EXTVERSION).sql
-EXTRA_CLEAN 	= _build/$(EXTENSION)--$(EXTVERSION).sql
+DATA 			= $(wildcard updates/*--*.sql) _build/$(EXTENSION)--$(EXTVERSION).sql
+EXTRA_CLEAN 	= $(wildcard updates/*--*.sql) _build/$(EXTENSION)--$(EXTVERSION).sql
 DOCS			= $(wildcard doc/*.md)
 
 PG_CONFIG		= pg_config

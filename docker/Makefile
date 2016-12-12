@@ -19,6 +19,18 @@ test:
 			psql -U postgres -c 'create extension if not exists pgtap';\
 			pg_prove -U postgres -ovf ./test/*.sql"
 
+test_update:
+	docker exec \
+		postgis_$(EXTENSION) \
+		bash -c "\
+			make pack; \
+			make uninstall; \
+			psql -U postgres -c \"drop extension lostgis\";\
+			pgxn install 'lostgis=1.0.0'; \
+			psql -U postgres -c 'create extension if not exists lostgis';\
+			pgxn install ./lostgis-1.0.1.zip; \
+			psql -U postgres -c 'alter extension lostgis update';"
+
 shell:
 	docker exec -ti \
 		postgis_$(EXTENSION) \
