@@ -46,7 +46,6 @@ begin
         raise 'Unknown interpolation method: %', interpolation_method;
     end if;
 
-    raise notice '% per point', invspeed;
     prev_tpv = tpvarray [1];
 
     prev_tpv.ts = start_time;
