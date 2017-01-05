@@ -1,5 +1,5 @@
 create or replace function ST_GridCell(
-    point geometry,
+    point     geometry,
     grid_size float default 500
 )
     returns geometry

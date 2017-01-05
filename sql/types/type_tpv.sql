@@ -195,29 +195,29 @@ create or replace function _tpvarray_from_jsonb(
 )
     returns tpv []
 as $$
-select
-    array((select
-        (
-            ST_Transform(
-                ST_SetSRID(
-                    ST_MakePoint(
-                        (p_tpv ->> 'lon') :: float,
-                        (p_tpv ->> 'lat') :: float
-                    ),
-                    4326
+select array(
+    (select (
+        ST_Transform(
+            ST_SetSRID(
+                ST_MakePoint(
+                    (p_tpv ->> 'lon') :: float,
+                    (p_tpv ->> 'lat') :: float
                 ),
-                3857
+                4326
             ),
-            p_tpv ->> 'acc',
-            p_tpv ->> 'hdg',
-            p_tpv ->> 'spd',
-            to_timestamp((p_tpv ->> 'ts') :: float / 1000),
-            p_tpv ->> 'src',
-            p_tpv ->> 'osm_id'
-        ) :: tpv
-        from
-            jsonb_array_elements(p_jsonb) as p_tpv
-    )) :: tpv []
+            3857
+        ),
+        p_tpv ->> 'acc',
+        p_tpv ->> 'hdg',
+        p_tpv ->> 'spd',
+        to_timestamp((p_tpv ->> 'ts') :: float / 1000),
+        p_tpv ->> 'src',
+        p_tpv ->> 'osm_id'
+    ) :: tpv
+     from
+                 jsonb_array_elements(p_jsonb) as p_tpv
+    )
+) :: tpv []
 $$ language 'sql' immutable strict parallel safe;
 
 drop cast if exists ( jsonb as tpv [] );
@@ -230,15 +230,17 @@ create or replace function _jsonb_from_tpv(
 )
     returns jsonb
 as $$
-select jsonb_build_object(
-    'lon', ST_X(p_tpv :: geography :: geometry),
-    'lat', ST_Y(p_tpv :: geography :: geometry),
-    'acc', p_tpv.accuracy,
-    'hdg', p_tpv.heading,
-    'spd', p_tpv.speed,
-    'ts', extract(epoch from p_tpv.ts) * 1000.,
-    'src', p_tpv.source,
-    'osm_id', p_tpv.osm_id
+select jsonb_strip_nulls(
+    jsonb_build_object(
+        'lon', round(ST_X(p_tpv :: geography :: geometry) * 1e12) / 1e12,
+        'lat', round(ST_Y(p_tpv :: geography :: geometry) * 1e12) / 1e12,
+        'acc', p_tpv.accuracy,
+        'hdg', p_tpv.heading,
+        'spd', p_tpv.speed,
+        'ts', extract(epoch from p_tpv.ts) * 1000.,
+        'src', p_tpv.source,
+        'osm_id', p_tpv.osm_id
+    )
 )
 $$ language 'sql' immutable strict parallel safe;
 
@@ -266,8 +268,8 @@ as $$
 select jsonb_strip_nulls(
     jsonb_agg(
         jsonb_build_object(
-            'lon', ST_X(p_tpv :: geography :: geometry),
-            'lat', ST_Y(p_tpv :: geography :: geometry),
+            'lon', round(ST_X(p_tpv :: geography :: geometry) * 1e12) / 1e12,
+            'lat', round(ST_Y(p_tpv :: geography :: geometry) * 1e12) / 1e12,
             'acc', p_tpv.accuracy,
             'hdg', p_tpv.heading,
             'spd', p_tpv.speed,

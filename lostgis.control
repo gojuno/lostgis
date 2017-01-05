@@ -1,4 +1,3 @@
-# hexgrid extension
 comment = 'LostGIS'
 default_version = '1.0.1'
 relocatable = true
