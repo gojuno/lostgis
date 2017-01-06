@@ -50,6 +50,19 @@ Get new position for given `tpv` and new `timestamp`.
 
 Calculate new position based on `speed` and `heading` from given `tpv`.
 
+
+### ST_AddTime
+
+Add time to array of TPV based on interpolation between start and stop time.
+
+    create or replace function ST_AddTime(
+        tpvarray             tpv [],
+        start_time           timestamptz,
+        end_time             timestamptz,
+        interpolation_method text default 'length' -- 'length', 'count'
+    ) returns tpv []
+
+
 ### ST_AnglesEqual
 
 Comparison of two angles
