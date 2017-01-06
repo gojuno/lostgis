@@ -1,0 +1,11 @@
+services:
+  - docker
+
+before_install:
+  - cd docker
+  - make image
+
+script:
+  - make run
+  - sleep 20
+  - make test
