@@ -20,6 +20,9 @@ begin
         order by ST_Z(ST_EndPoint(geom))
         )
         from unnest(geoms) geom
+        where
+            not ST_IsEmpty(geom)
+            and ST_Z(ST_StartPoint(geom)) != 0
     );
     for current in (select unnest(geoms)) loop
         if ST_Z(ST_EndPoint(accum)) != ST_Z(ST_StartPoint(current))
