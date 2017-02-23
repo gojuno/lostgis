@@ -1,7 +1,7 @@
 create or replace function ST_TimeLineMerge(
-    geoms geometry ( linestringz ) []
+    geoms geometry(linestringz) []
 )
-    returns setof geometry ( linestringz ) as
+    returns setof geometry(linestringz) as
 $$
 declare
     accum   geometry;
@@ -19,7 +19,13 @@ begin
             end
         order by ST_Z(ST_EndPoint(geom))
         )
-        from unnest(geoms) geom
+        from (
+            select (ST_Dump(geom)).geom as geom
+            from unnest(geoms) geom
+        ) g
+        where
+            not ST_IsEmpty(geom)
+            and ST_StartPoint(geom) is not null
     );
     for current in (select unnest(geoms)) loop
         if ST_Z(ST_EndPoint(accum)) != ST_Z(ST_StartPoint(current))
