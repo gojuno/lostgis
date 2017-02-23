@@ -25,7 +25,7 @@ begin
         ) g
         where
             not ST_IsEmpty(geom)
-            and ST_Z(ST_StartPoint(geom)) != 0
+            and ST_StartPoint(geom) is not null
     );
     for current in (select unnest(geoms)) loop
         if ST_Z(ST_EndPoint(accum)) != ST_Z(ST_StartPoint(current))
