@@ -37,7 +37,7 @@ select (
     p_tpv -> 'acc',
     p_tpv -> 'hdg',
     p_tpv -> 'spd',
-    to_timestamp((p_tpv -> 'ts') :: float / 1000),
+    to_timestamp((p_tpv -> 'ts') :: float / 1000.0),
     p_tpv -> 'src',
     (p_tpv -> 'osm_id') :: numeric
 ) :: tpv
@@ -200,8 +200,8 @@ select array(
         ST_Transform(
             ST_SetSRID(
                 ST_MakePoint(
-                    (p_tpv -> 'lon') :: float,
-                    (p_tpv -> 'lat') :: float
+                    p_tpv -> 'lon',
+                    p_tpv -> 'lat'
                 ),
                 4326
             ),
@@ -212,7 +212,7 @@ select array(
         p_tpv -> 'spd',
         to_timestamp((p_tpv -> 'ts') / 1000.0),
         p_tpv -> 'src',
-        p_tpv -> 'osm_id'
+        (p_tpv -> 'osm_id') :: numeric
     ) :: tpv
      from
                  jsonb_array_elements(p_jsonb) as p_tpv
