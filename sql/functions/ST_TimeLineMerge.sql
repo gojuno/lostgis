@@ -17,18 +17,18 @@ begin
             else
                 ST_Reverse(geom)
             end
-        order by ST_Z(ST_EndPoint(geom))
+        order by ST_Z(ST_EndPoint(geom)) + ST_Z(ST_StartPoint(geom))
         )
         from (
-            select (ST_Dump(geom)).geom as geom
-            from unnest(geoms) geom
-        ) g
+                 select (ST_Dump(geom)).geom as geom
+                 from unnest(geoms) geom
+             ) g
         where
             not ST_IsEmpty(geom)
             and ST_StartPoint(geom) is not null
     );
     for current in (select unnest(geoms)) loop
-        if ST_Z(ST_EndPoint(accum)) != ST_Z(ST_StartPoint(current))
+        if abs(ST_Z(ST_EndPoint(accum)) - ST_Z(ST_StartPoint(current))) > 0.001
         then
             return next accum;
             accum = null;
@@ -44,4 +44,4 @@ begin
     return;
 end
 $$
-language 'plpgsql' immutable strict;
+language 'plpgsql' immutable strict parallel safe;
