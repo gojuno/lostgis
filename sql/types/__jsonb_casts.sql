@@ -1,4 +1,4 @@
--- optimized version of this cast exists in commercially supported build by Postgres Professional (http://pgostgrespro.ru/)
+-- optimized version of this cast exists in commercially supported build by Postgres Professional (http://postgrespro.ru/)
 do $$
 begin
     create cast ( jsonb as float )
@@ -8,7 +8,7 @@ begin
 end;
 $$;
 
--- optimized version of this cast exists in commercially supported build by Postgres Professional (http://pgostgrespro.ru/)
+-- optimized version of this cast exists in commercially supported build by Postgres Professional (http://postgrespro.ru/)
 do $$
 begin
     create cast ( jsonb as numeric )

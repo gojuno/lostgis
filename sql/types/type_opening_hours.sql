@@ -30,6 +30,7 @@ begin
         then -- 24/7 simplest case ever
             oh.is_24 = true;
             oh.is_valid = true;
+
         elseif txt not like '%;%'
             then -- single interval set
                 oh.week_mask = '0' :: bit(10080);
@@ -79,6 +80,7 @@ begin
                 end loop;
 
                 oh.is_valid = true;
+
         else -- multiple interval set - a combination of singles
             oh.week_mask = '0' :: bit(10080);
             oh.is_valid = true;
