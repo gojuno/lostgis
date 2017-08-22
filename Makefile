@@ -8,6 +8,7 @@ DATA 			= $(wildcard updates/*--*.sql) _build/$(EXTENSION)--$(EXTVERSION).sql
 EXTRA_CLEAN 	= $(wildcard updates/*--*.sql) _build/$(EXTENSION)--$(EXTVERSION).sql
 DOCS			= $(wildcard doc/*.md)
 
+PG_CONFIG		= pg_config
 PGXS 			= $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
 
