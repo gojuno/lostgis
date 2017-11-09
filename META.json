@@ -2,7 +2,7 @@
    "name": "lostgis",
    "abstract": "LostGIS",
    "description": "LostGIS",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "maintainer": [
       "Darafei Praliaskouski <komzpa@gmail.com>",
       "Alexander Verbitsky <habibutsu@gmail.com>"
@@ -27,7 +27,7 @@
          "abstract": "LostGIS",
          "docfile": "doc/lostgis.md",
          "file": "sql/lostgis.sql",
-         "version": "1.0.1"
+         "version": "1.0.2"
       }
    },
    "resources": {
